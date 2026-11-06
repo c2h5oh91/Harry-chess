@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Szachy Czarodziejów 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/three.module.min.js",
+        "three/addons/": "./vendor/three/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <header id="topbar">
+    <h1>Szachy Czarodziejów</h1>
+    <div id="turnIndicator" class="turn white">Ruch: Białe</div>
+    <div id="status">Przygotowywanie zaklęć…</div>
+  </header>
+
+  <button id="menuToggle" aria-label="Menu">☰</button>
+
+  <aside id="panel">
+    <div class="row">
+      <label for="mode">Tryb</label>
+      <select id="mode">
+        <option value="ai">Gracz vs Komputer</option>
+        <option value="pvp">Dwóch graczy</option>
+      </select>
+    </div>
+    <div class="row" id="levelRow">
+      <label for="level">Poziom</label>
+      <select id="level">
+        <option value="1">Pierwszoroczniak</option>
+        <option value="2" selected>Prefekt</option>
+        <option value="3">Arcymag</option>
+      </select>
+    </div>
+    <div class="buttons">
+      <button id="newGame">Nowa gra</button>
+      <button id="undo" disabled>Cofnij</button>
+      <button id="flip">Obróć</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="cine" checked /> Kamera kinowa</label>
+    <label class="toggle"><input type="checkbox" id="fast" /> Szybkie animacje</label>
+    <label class="toggle"><input type="checkbox" id="sound" checked /> Dźwięk</label>
+    <h3>Księga ruchów</h3>
+    <ol id="moves"></ol>
+  </aside>
+
+  <div id="spell"><div class="incant"></div><div class="sub"></div></div>
+
+  <div id="promo" class="hidden">
+    <div class="box">
+      <h2>Zaklęcie przemiany</h2>
+      <p>W kogo ma się przemienić pionek?</p>
+      <div class="choices">
+        <button data-p="q">♛<span>Hetman</span></button>
+        <button data-p="r">♜<span>Wieża</span></button>
+        <button data-p="b">♝<span>Goniec</span></button>
+        <button data-p="n">♞<span>Skoczek</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="gameover" class="hidden">
+    <div class="box">
+      <h2>Szach-mat!</h2>
+      <p></p>
+      <button id="again">Zagraj ponownie</button>
+    </div>
+  </div>
+
+  <div id="loading"><div class="sigil"></div><p>Zapalanie świec…</p></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+:root {
+  --gold: #e8c46a;
+  --gold-dim: #a8873e;
+  --ink: #f4ead2;
+  --panel: rgba(14, 12, 22, 0.72);
+  --border: rgba(232, 196, 106, 0.35);
+  --emerald: #5cff9a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #04050b;
+  color: var(--ink);
+  font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
+}
+
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  padding: 12px 20px;
+  background: linear-gradient(to bottom, rgba(4, 5, 11, 0.85), rgba(4, 5, 11, 0));
+  pointer-events: none;
+}
+#topbar h1 {
+  margin: 0;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: clamp(18px, 2.4vw, 30px);
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(255, 190, 80, 0.6), 0 2px 2px #000;
+  letter-spacing: 1px;
+}
+.turn {
+  padding: 4px 12px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  border: 1px solid var(--border);
+}
+.turn.white { background: rgba(240, 230, 210, 0.9); color: #2a1d10; box-shadow: 0 0 14px rgba(255, 200, 90, 0.5); }
+.turn.black { background: rgba(20, 18, 28, 0.9); color: var(--emerald); box-shadow: 0 0 14px rgba(70, 255, 140, 0.4); }
+#status { font-size: 14px; opacity: 0.85; text-shadow: 0 1px 2px #000; }
+
+#menuToggle {
+  display: none;
+  position: fixed; top: 10px; right: 12px; z-index: 6;
+  width: 42px; height: 42px; font-size: 20px;
+}
+
+#panel {
+  position: fixed; top: 70px; right: 16px; width: 250px;
+  max-height: calc(100% - 90px);
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(232, 196, 106, 0.06);
+  z-index: 5;
+}
+#panel h3 { margin: 6px 0 0; font-size: 13px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; }
+select, button {
+  font-family: inherit; font-size: 13px; color: var(--ink);
+  background: rgba(40, 30, 20, 0.85);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 6px 10px; cursor: pointer;
+}
+select { flex: 1; max-width: 150px; }
+button:hover:not(:disabled) { border-color: var(--gold); box-shadow: 0 0 10px rgba(232, 196, 106, 0.4); }
+button:disabled { opacity: 0.4; cursor: default; }
+.buttons { display: flex; gap: 6px; }
+.buttons button { flex: 1; padding: 7px 4px; }
+.toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.toggle input { accent-color: var(--gold); }
+
+#moves {
+  margin: 0; padding: 0; list-style: none;
+  overflow-y: auto; min-height: 60px; max-height: 260px;
+  font-family: Georgia, serif; font-size: 13px;
+  border-top: 1px solid var(--border);
+}
+#moves li { display: grid; grid-template-columns: 32px 1fr 1fr; padding: 3px 2px; border-bottom: 1px solid rgba(232, 196, 106, 0.08); }
+#moves li .n { color: var(--gold-dim); }
+
+#spell {
+  position: fixed; left: 50%; top: 18%;
+  transform: translate(-50%, 0);
+  text-align: center; pointer-events: none;
+  opacity: 0; z-index: 4;
+  width: min(92vw, 900px);
+}
+#spell .incant {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: clamp(28px, 5.5vw, 64px);
+  color: #fff3cf;
+  text-shadow: 0 0 10px #ffc25a, 0 0 30px #ff9a2a, 0 0 60px rgba(255, 150, 40, 0.6);
+  letter-spacing: 2px;
+}
+#spell .sub { margin-top: 6px; font-size: clamp(13px, 1.6vw, 18px); color: var(--ink); text-shadow: 0 1px 3px #000; opacity: 0.9; }
+#spell.b .incant { color: #e4ffe9; text-shadow: 0 0 10px #46ff8c, 0 0 30px #20c060, 0 0 60px rgba(40, 220, 110, 0.6); }
+#spell.red .incant { color: #ffe1dc; text-shadow: 0 0 10px #ff5040, 0 0 30px #d02010, 0 0 60px rgba(255, 60, 40, 0.6); }
+#spell.show { animation: spell 2.6s ease-out forwards; }
+@keyframes spell {
+  0% { opacity: 0; transform: translate(-50%, 20px) scale(0.6); filter: blur(8px); letter-spacing: 20px; }
+  15% { opacity: 1; transform: translate(-50%, 0) scale(1.05); filter: blur(0); letter-spacing: 2px; }
+  25% { transform: translate(-50%, 0) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -30px) scale(1.08); filter: blur(4px); }
+}
+
+#promo, #gameover {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+.box {
+  background: var(--panel); border: 1px solid var(--gold); border-radius: 14px;
+  padding: 22px 26px; text-align: center; max-width: 92vw;
+  box-shadow: 0 0 40px rgba(232, 196, 106, 0.3);
+}
+.box h2 { margin: 0 0 6px; font-family: 'Cinzel Decorative', 'Cinzel', serif; color: var(--gold); }
+.box p { margin: 0 0 16px; }
+.choices { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.choices button { font-size: 40px; width: 86px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.choices button span { font-size: 12px; margin-top: 4px; }
+#promo[data-color="b"] .choices button { color: var(--emerald); }
+#gameover button { font-size: 16px; padding: 10px 20px; }
+
+.hidden { display: none !important; }
+
+#loading {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #04050b; color: var(--gold); transition: opacity 0.8s;
+}
+#loading.hidden { display: flex !important; opacity: 0; pointer-events: none; }
+.sigil {
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 3px solid var(--gold); border-top-color: transparent;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(232, 196, 106, 0.5);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 760px) {
+  #topbar { padding: 10px 64px 10px 16px; gap: 8px 12px; }
+  #status { width: 100%; font-size: 12px; }
+  #menuToggle { display: block; }
+  #panel {
+    top: auto; bottom: 0; right: 0; left: 0; width: auto;
+    max-height: 60%;
+    border-radius: 14px 14px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+  }
+  body.panel-open #panel { transform: translateY(0); }
+  #moves { max-height: 140px; }
+  #spell { top: 14%; }
+}
